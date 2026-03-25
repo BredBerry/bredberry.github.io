@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KiraVPN</title>
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page">
+  <header class="topbar">
+    <div class="logo">
+      <img src="img/logo.svg" alt="KiraVPN" class="logo-icon">
+      <span>KiraVPN</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="goToInfo()">Что такое VPN?</button>
+      <button class="btn btn-secondary" onclick="goToLogin()">Войти</button>
+      <button class="btn btn-primary" onclick="goToBot()">Подключиться</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Быстрый и безопасный VPN</h1>
+    <p>Обход блокировок • Скорость до 10 Гбит/с • Полная анонимность</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="goToBot()">Начать</button>
+      <button class="btn btn-secondary" onclick="goToInfo()">Узнать подробнее</button>
+    </div>
+  </section>
+
+  <section class="cards" aria-label="Тарифные планы">
+    <article class="card">
+      <h2>1 месяц</h2>
+      <div class="price">199₽</div>
+      <button class="btn" onclick="goToBot()">Купить</button>
+    </article>
+
+    <article class="card">
+      <h2>3 месяца</h2>
+      <div class="price">499₽</div>
+      <button class="btn" onclick="goToBot()">Купить</button>
+    </article>
+
+    <article class="card">
+      <h2>12 месяцев</h2>
+      <div class="price">1490₽</div>
+      <button class="btn" onclick="goToBot()">Купить</button>
+    </article>
+  </section>
+
+  <aside class="services-box" aria-label="Список доступных сервисов">
+    <div class="services-title">Сервисы снова доступны</div>
+    <div class="services-list">
+      <span class="service service-telegram">Telegram</span>
+      <span class="service service-instagram">Instagram</span>
+      <span class="service service-youtube">YouTube</span>
+      <span class="service service-tiktok">TikTok</span>
+      <span class="service service-whatsapp">WhatsApp</span>
+      <span class="service service-twitter">Twitter</span>
+      <span class="service service-netflix">Netflix</span>
+      <span class="service service-discord">Discord</span>
+      <span class="service service-chatgpt">ChatGPT</span>
+      <span class="service service-gemini">Google Gemini</span>
+      <span class="service service-facebook">Facebook</span>
+      <span class="service service-roblox">Roblox</span>
+      <span class="service service-linkedin">LinkedIn</span>
+      <span class="service service-gov">Госуслуги</span>
+    </div>
+  </aside>
+
+  <footer>
+    © 2026 FastVPN
+  </footer>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

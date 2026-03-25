@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Войти - KiraVPN</title>
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page">
+  <header class="topbar">
+    <div class="logo">
+      <img src="img/logo.svg" alt="KiraVPN" class="logo-icon">
+      <span>KiraVPN</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">На главную</button>
+    </div>
+  </header>
+
+  <section class="login-container">
+    <div class="login-card">
+      <h1>Вход в аккаунт</h1>
+      <p class="login-subtitle">Введите ваши учетные данные для доступа к VPN</p>
+      
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="username">Логин или email</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            placeholder="Введите ваш логин" 
+            required
+            class="form-input"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Введите пароль" 
+            required
+            class="form-input"
+          >
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox">
+            <input type="checkbox" name="remember">
+            <span>Запомнить меня</span>
+          </label>
+          <a href="#" class="forgot-password">Забыли пароль?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Войти</button>
+      </form>
+
+      <div class="login-divider">
+        <span>или</span>
+      </div>
+
+      <button class="btn btn-secondary btn-large" onclick="goToBot()">Создать аккаунт</button>
+
+      <p class="login-footer">
+        Впервые у нас? <a href="vpn-info.html">Узнайте подробнее о KiraVPN</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 KiraVPN
+  </footer>
+
+<script src="js/script.js"></script>
+<script>
+function handleLogin(event) {
+  event.preventDefault();
+  
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  
+  if (username && password) {
+    // Имитация загрузки
+    const btn = event.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Загрузка...';
+    
+    setTimeout(() => {
+      alert('Успешный вход! Вы авторизованы как: ' + username);
+      // Здесь можно добавить редирект на личный кабинет или основной контент VPN
+      window.location.href = 'index.html';
+    }, 1000);
+  }
+}
+</script>
+</body>
+</html>
