@@ -116,7 +116,7 @@ function drawMinimalCard(mode){
     studio:{outer:'#090a0c',paper:'#121316',ink:'#f5f4f0',muted:'#8b8d92',hero:'#1c1e22',heroInk:'#f5f4f0',date:'#ffcc00',panel:'#1b1d21',line:'#303238',pill:'#24262b',pillLine:'#44474e',footer:'#f3f2ed',footerInk:'#111111',accent:'#ffcc00'}
   };
   const t=themes[mode]||themes.team;
-  const valueWidth=820;
+  const valueWidth=848;
   const skillRows=pillRows(ctx,skills.length?skills:['Навыки не выбраны'],valueWidth,{fontSize:16,padX:18,gap:9});
   const dateRows=pillRows(ctx,dates.length?dates.map(d=>dateLabel(d,severalYears)):['Выберите даты'],valueWidth,{fontSize:16,padX:17,gap:9});
   const blockHeight=rows=>94+Math.max(0,rows.length-1)*47;
@@ -129,25 +129,24 @@ function drawMinimalCard(mode){
   ctx.fillStyle=t.outer;ctx.fillRect(0,0,1200,cardHeight);
   rounded(ctx,20,20,1160,cardHeight-40,34,t.paper);
 
-  if(mode!=='studio')drawDotField(ctx,1010,38,10,6,mode==='food'?'#ff8b73':'#ffcc00');
   ctx.fillStyle='#f04432';ctx.font='800 34px Manrope,Arial';ctx.fillText('Y',58,80);ctx.fillStyle=t.ink;ctx.fillText('andex',82,80);
   ctx.font='500 34px Manrope,Arial';ctx.fillText('Team',184,80);
-  rounded(ctx,970,50,152,34,17,t.panel,t.line);ctx.fillStyle=t.muted;ctx.font='800 10px Manrope,Arial';ctx.textAlign='center';ctx.fillText('ОБМЕН СМЕНОЙ',1046,72);ctx.textAlign='left';
+  ctx.fillStyle=t.muted;ctx.font='800 10px Manrope,Arial';ctx.textAlign='right';ctx.fillText('ОБМЕН СМЕНОЙ',1120,70);ctx.textAlign='left';
 
   const heroFill=ctx.createLinearGradient(54,heroY,1146,heroY+heroH);if(mode==='team'){heroFill.addColorStop(0,'#ffd75b');heroFill.addColorStop(1,'#ffc400')}else if(mode==='food'){heroFill.addColorStop(0,'#ff785f');heroFill.addColorStop(1,'#ff5038')}else{heroFill.addColorStop(0,'#23252a');heroFill.addColorStop(1,'#191b1f')}rounded(ctx,54,heroY,1092,heroH,28,heroFill,mode==='studio'?t.line:null);
-  rounded(ctx,78,135,92,100,25,mode==='studio'?'#2d3035':'rgba(255,255,255,.30)');drawMinimalIcon(ctx,'swap',124,185,t.heroInk,t.accent);
-  ctx.fillStyle=t.heroInk;ctx.font='800 45px Manrope,Arial';ctx.fillText('Ищу замену',198,174);
-  ctx.font='600 17px Manrope,Arial';ctx.globalAlpha=.68;ctx.fillText('Рабочий день',201,209);ctx.globalAlpha=1;
-  rounded(ctx,760,132,354,106,22,t.date,mode==='studio'?null:t.line);
-  drawMinimalIcon(ctx,'calendar',799,185,'#111',t.accent);ctx.fillStyle=mode==='studio'?'#5e5200':t.muted;ctx.font='800 10px Manrope,Arial';ctx.fillText('ДАТА ЗАМЕНЫ',834,163);
-  ctx.fillStyle='#111';ctx.font='800 37px Manrope,Arial';ctx.fillText(fmt(state.replaceDate),834,207);
+  ctx.fillStyle=t.heroInk;ctx.font='800 45px Manrope,Arial';ctx.fillText('Ищу замену',88,174);
+  ctx.font='600 17px Manrope,Arial';ctx.globalAlpha=.68;ctx.fillText('Рабочий день',91,209);ctx.globalAlpha=1;
+  ctx.strokeStyle=mode==='studio'?'#44464c':'rgba(0,0,0,.16)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(706,140);ctx.lineTo(706,230);ctx.stroke();
+  rounded(ctx,746,132,368,106,22,t.date,mode==='studio'?null:t.line);
+  ctx.fillStyle=mode==='studio'?'#5e5200':t.muted;ctx.font='800 10px Manrope,Arial';ctx.fillText('ДАТА ЗАМЕНЫ',780,163);
+  ctx.fillStyle='#111';ctx.font='800 39px Manrope,Arial';ctx.fillText(fmt(state.replaceDate),780,207);
 
   function section(y,height,index,label,rows,options={}){
     rounded(ctx,54,y,1092,height,22,t.panel,t.line);
-    rounded(ctx,74,y+18,52,58,17,mode==='studio'?'#25272c':mode==='food'?'#fff0eb':'#fff3c8');drawMinimalIcon(ctx,options.icon,100,y+47,t.ink,t.accent);
-    ctx.fillStyle=t.muted;ctx.font='800 10px Manrope,Arial';ctx.fillText(index,144,y+38);ctx.font='800 11px Manrope,Arial';ctx.fillText(label,170,y+38);
-    if(options.shift){ctx.fillStyle=t.ink;ctx.font='800 31px Manrope,Arial';ctx.fillText(`${$('#startTime').value||'—'} — ${$('#endTime').value||'—'}`,280,y+57);return}
-    drawPillRows(ctx,rows,280,y+25,{height:40,gapX:9,gapY:7,fill:t.pill,stroke:t.pillLine,text:t.ink});
+    ctx.fillStyle=t.accent;rounded(ctx,78,y+26,28,28,9,t.accent);ctx.fillStyle='#111';ctx.font='800 10px Manrope,Arial';ctx.textAlign='center';ctx.fillText(index,92,y+45);ctx.textAlign='left';
+    ctx.fillStyle=t.muted;ctx.font='800 11px Manrope,Arial';ctx.fillText(label,128,y+46);
+    if(options.shift){ctx.fillStyle=t.ink;ctx.font='800 31px Manrope,Arial';ctx.fillText(`${$('#startTime').value||'—'} — ${$('#endTime').value||'—'}`,252,y+57);return}
+    drawPillRows(ctx,rows,252,y+25,{height:40,gapX:9,gapY:7,fill:t.pill,stroke:t.pillLine,text:t.ink});
   }
   section(contentY,skillsH,'01','НАВЫКИ',skillRows,{icon:'skills'});
   section(shiftY,shiftH,'02','СМЕНА',[],{shift:true,icon:'clock'});
@@ -155,10 +154,9 @@ function drawMinimalCard(mode){
 
   rounded(ctx,54,footerY,1092,68,20,t.footer);
   const note=$('#note').value||'Буду благодарен за обмен!';
-  ctx.strokeStyle=t.accent;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?7:15,px=86+Math.cos(a)*r,py=footerY+34+Math.sin(a)*r;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.closePath();ctx.stroke();
-  drawAdaptiveText(ctx,note,118,footerY+43,630,{maxSize:20,minSize:13,maxLines:1,weight:600,color:t.footerInk});
-  rounded(ctx,824,footerY+12,292,44,16,null,mode==='studio'?'#d1b200':'#b99b00');
-  ctx.fillStyle=t.accent;ctx.font='800 19px Manrope,Arial';ctx.fillText('@',850,footerY+41);drawAdaptiveText(ctx,$('#username').value||'username',877,footerY+41,210,{maxSize:18,minSize:13,maxLines:1,weight:800,color:t.footerInk});
+  drawAdaptiveText(ctx,note,82,footerY+43,670,{maxSize:20,minSize:13,maxLines:1,weight:600,color:t.footerInk});
+  ctx.strokeStyle=mode==='studio'?'#c9c7bf':'#4b4c48';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(798,footerY+17);ctx.lineTo(798,footerY+51);ctx.stroke();
+  ctx.fillStyle=t.accent;ctx.font='800 19px Manrope,Arial';ctx.fillText('@',836,footerY+42);drawAdaptiveText(ctx,$('#username').value||'username',864,footerY+42,234,{maxSize:18,minSize:13,maxLines:1,weight:800,color:t.footerInk});
   ctx.fillStyle=t.muted;ctx.font='500 8px Manrope,Arial';ctx.textAlign='center';ctx.fillText('НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · НЕ СВЯЗАН С ЯНДЕКСОМ',600,cardHeight-27);ctx.textAlign='left';
 }
 
