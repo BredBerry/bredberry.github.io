@@ -1,81 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KiraVPN</title>
-  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
-  <link rel="stylesheet" href="css/styles.css">
+  <meta name="theme-color" content="#ffcc00">
+  <meta name="description" content="Конструктор карточек для обмена сменами команды поддержки">
+  <title>Team Swap — обмен сменами</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="page">
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="topbar">
-    <div class="logo">
-      <img src="img/logo.svg" alt="KiraVPN" class="logo-icon">
-      <span>KiraVPN</span>
-    </div>
-    <div class="header-actions">
-      <button class="btn btn-secondary" onclick="goToInfo()">Что такое VPN?</button>
-      <button class="btn btn-secondary" onclick="goToLogin()">Войти</button>
-      <button class="btn btn-primary" onclick="goToBot()">Подключиться</button>
-    </div>
+    <a class="brand" href="#" aria-label="Team Swap — на главную"><span class="brand-y">Y</span><span>andex</span><span class="brand-light">Team</span></a>
+    <div class="header-chip"><span class="status-dot"></span>Конструктор обмена сменами</div>
   </header>
 
-  <section class="hero">
-    <h1>Быстрый и безопасный VPN</h1>
-    <p>Обход блокировок • Скорость до 10 Гбит/с • Полная анонимность</p>
-    <div class="hero-buttons">
-      <button class="btn btn-primary" onclick="goToBot()">Начать</button>
-      <button class="btn btn-secondary" onclick="goToInfo()">Узнать подробнее</button>
-    </div>
-  </section>
+  <main class="page-shell">
+    <section class="intro">
+      <div class="eyebrow"><span>↻</span> ОБМЕН СМЕНАМИ</div>
+      <h1>Найди замену<br><span>без лишних сообщений</span></h1>
+      <p>Выбери рабочий день, укажи график и даты, когда готов помочь коллегам. Мы соберём аккуратную карточку для рабочего чата.</p>
+      <div class="trust-row"><span>✓ Без регистрации</span><span>✓ Данные остаются у тебя</span><span>✓ Готово за минуту</span></div>
+    </section>
 
-  <section class="cards" aria-label="Тарифные планы">
-    <article class="card">
-      <h2>1 месяц</h2>
-      <div class="price">99₽</div>
-      <button class="btn" onclick="goToBot()">Купить</button>
-    </article>
+    <section class="workspace">
+      <form class="form-card" id="swapForm" autocomplete="off">
+        <div class="section-head"><div><span class="step">01</span><h2>Смена для замены</h2></div><span class="required-note">* обязательные поля</span></div>
+        <div class="field">
+          <label>Рабочий день <b>*</b></label>
+          <button class="date-input" type="button" id="replaceDateButton"><span class="mini-icon">▦</span><span id="replaceDateText">Выберите дату</span><span class="chevron">⌄</span></button>
+          <div class="calendar-popover" id="replaceCalendar" hidden></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="startTime">Начало <b>*</b></label><input type="time" id="startTime" value="11:00" required></div>
+          <div class="time-divider">→</div>
+          <div class="field"><label for="endTime">Окончание <b>*</b></label><input type="time" id="endTime" value="23:00" required></div>
+        </div>
 
-    <article class="card">
-      <h2>3 месяца</h2>
-      <div class="price">250₽</div>
-      <button class="btn" onclick="goToBot()">Купить</button>
-    </article>
+        <div class="section-head spaced"><div><span class="step">02</span><h2>Когда готов выйти</h2></div><span class="counter" id="dateCounter">0 выбрано</span></div>
+        <p class="section-copy">Можно выбрать несколько дней. Нажми на дату ещё раз, чтобы убрать её.</p>
+        <div class="inline-calendar" id="availableCalendar"></div>
 
-    <article class="card">
-      <h2>12 месяцев</h2>
-      <div class="price">999₽</div>
-      <button class="btn" onclick="goToBot()">Купить</button>
-    </article>
-  </section>
+        <div class="section-head spaced"><div><span class="step">03</span><h2>Навык и контакты</h2></div></div>
+        <div class="skill-options" id="skillOptions">
+          <button type="button" class="skill-option active" data-skill="Голосовая поддержка L1"><span>🎧</span><b>Голос</b><small>Голосовая поддержка L1</small></button>
+          <button type="button" class="skill-option" data-skill="Поддержка в чате L1"><span>💬</span><b>Чат</b><small>Текстовая поддержка L1</small></button>
+          <button type="button" class="skill-option" id="customSkillButton"><span>＋</span><b>Свой навык</b><small>Добавить вручную</small></button>
+        </div>
+        <div class="field custom-skill-wrap" id="customSkillWrap" hidden><label for="customSkill">Название навыка</label><input id="customSkill" maxlength="42" placeholder="Например, Биллинг L2"></div>
+        <div class="field-row two-cols">
+          <div class="field"><label for="username">Логин <b>*</b></label><div class="input-prefix"><span>@</span><input id="username" value="malinovskym" maxlength="24" required></div></div>
+          <div class="field"><label for="note">Комментарий</label><input id="note" value="Буду благодарен за обмен! 🤝" maxlength="52"></div>
+        </div>
+      </form>
 
-  <aside class="services-box" aria-label="Список доступных сервисов">
-    <div class="services-title">Сервисы снова доступны</div>
-    <div class="services-list">
-      <span class="service service-telegram">Telegram</span>
-      <span class="service service-instagram">Instagram</span>
-      <span class="service service-youtube">YouTube</span>
-      <span class="service service-tiktok">TikTok</span>
-      <span class="service service-whatsapp">WhatsApp</span>
-      <span class="service service-twitter">Twitter</span>
-      <span class="service service-netflix">Netflix</span>
-      <span class="service service-discord">Discord</span>
-      <span class="service service-chatgpt">ChatGPT</span>
-      <span class="service service-gemini">Google Gemini</span>
-      <span class="service service-facebook">Facebook</span>
-      <span class="service service-roblox">Roblox</span>
-      <span class="service service-linkedin">LinkedIn</span>
-      <span class="service service-gov">Госуслуги</span>
-    </div>
-  </aside>
-
-  <footer>
-    © 2026 KiraVPN
-  </footer>
-</div>
-
-<script src="js/script.js"></script>
+      <aside class="preview-panel">
+        <div class="preview-head"><div><span class="live-dot"></span><b>Карточка обновляется автоматически</b></div><button id="resetButton" class="text-button" type="button">Сбросить</button></div>
+        <div class="card-stage"><canvas id="cardCanvas" width="1200" height="760" aria-label="Предпросмотр карточки обмена сменой"></canvas></div>
+        <div class="actions">
+          <button class="primary-button" id="downloadButton" type="button"><span>↓</span>Скачать PNG</button>
+          <button class="secondary-button" id="copyButton" type="button"><span>▣</span>Скопировать</button>
+        </div>
+        <p class="privacy">🔒 Карточка создаётся прямо в браузере. Мы ничего не сохраняем.</p>
+      </aside>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <footer><span>Team Swap</span><span>Сделано для тех, кто всегда подстрахует · 2026</span></footer>
+  <script src="app.js"></script>
 </body>
 </html>
