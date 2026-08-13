@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260813-2">
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -43,6 +43,7 @@
         <div class="section-head spaced"><div><span class="step">02</span><h2>Когда готов выйти</h2></div><span class="counter" id="dateCounter">0 выбрано</span></div>
         <p class="section-copy">Можно выбрать несколько дней. Нажми на дату ещё раз, чтобы убрать её.</p>
         <div class="inline-calendar" id="availableCalendar"></div>
+        <div class="selected-date-list" id="selectedDateList" aria-live="polite"></div>
 
         <div class="section-head spaced"><div><span class="step">03</span><h2>Навык и контакты</h2></div></div>
         <div class="skill-options" id="skillOptions">
@@ -71,9 +72,17 @@
         <p class="privacy">🔒 Карточка создаётся прямо в браузере. Мы ничего не сохраняем.</p>
       </aside>
     </section>
+
+    <section class="disclaimer" aria-label="Правовая информация">
+      <span class="disclaimer-mark">i</span>
+      <div>
+        <strong>Неофициальный проект</strong>
+        <p>Team Swap не является официальной утилитой Яндекса и не связан с ООО «Яндекс». Это публичная фанатская страница, созданная для удобного оформления предложений об обмене сменами. Названия и товарные знаки принадлежат их правообладателям.</p>
+      </div>
+    </section>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <footer><span>Team Swap</span><span>Сделано для тех, кто всегда подстрахует · 2026</span></footer>
-  <script src="app.js"></script>
+  <footer><span>Team Swap</span><span>Независимый неофициальный проект · 2026</span></footer>
+  <script src="app.js?v=20260813-2"></script>
 </body>
 </html>
