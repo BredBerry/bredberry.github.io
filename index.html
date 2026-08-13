@@ -48,9 +48,13 @@
         <div class="skill-options" id="skillOptions">
           <button type="button" class="skill-option active" data-skill="Голосовая поддержка L1"><span>🎧</span><b>Голос</b><small>Голосовая поддержка L1</small></button>
           <button type="button" class="skill-option" data-skill="Поддержка в чате L1"><span>💬</span><b>Чат</b><small>Текстовая поддержка L1</small></button>
-          <button type="button" class="skill-option" id="customSkillButton"><span>＋</span><b>Свой навык</b><small>Добавить вручную</small></button>
+          <button type="button" class="skill-option" id="customSkillButton"><span>＋</span><b>Свой навык</b><small>Можно добавить несколько</small></button>
         </div>
-        <div class="field custom-skill-wrap" id="customSkillWrap" hidden><label for="customSkill">Название навыка</label><input id="customSkill" maxlength="42" placeholder="Например, Биллинг L2"></div>
+        <div class="field custom-skill-wrap" id="customSkillWrap" hidden>
+          <label for="customSkill">Добавить свой навык</label>
+          <div class="custom-skill-entry"><input id="customSkill" maxlength="36" placeholder="Например, Биллинг L2"><button id="addCustomSkill" type="button">Добавить</button></div>
+          <div class="custom-skill-list" id="customSkillList"></div>
+        </div>
         <div class="field-row two-cols">
           <div class="field"><label for="username">Логин <b>*</b></label><div class="input-prefix"><span>@</span><input id="username" value="malinovskym" maxlength="24" required></div></div>
           <div class="field"><label for="note">Комментарий</label><input id="note" value="Буду благодарен за обмен! 🤝" maxlength="52"></div>
