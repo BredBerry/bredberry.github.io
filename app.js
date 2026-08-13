@@ -97,6 +97,7 @@ function drawEditorialCard(mode){
 }
 
 function drawDotField(ctx,x,y,columns,rows,color){ctx.save();ctx.fillStyle=color;for(let row=0;row<rows;row++)for(let col=0;col<columns;col++){const alpha=Math.max(.08,.72-(row+col)*.045);ctx.globalAlpha=alpha;ctx.beginPath();ctx.arc(x+col*12,y+row*12,2.2,0,Math.PI*2);ctx.fill()}ctx.restore()}
+function glow(ctx,x,y,r,color){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2)}
 function drawMinimalIcon(ctx,type,x,y,color='#111',accent='#ffcc00'){
   ctx.save();ctx.translate(x,y);ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3.5;ctx.lineCap='round';ctx.lineJoin='round';
   if(type==='swap'){ctx.beginPath();ctx.arc(0,0,18,-2.65,.3);ctx.stroke();ctx.beginPath();ctx.moveTo(15,-9);ctx.lineTo(19,0);ctx.lineTo(9,1);ctx.stroke();ctx.beginPath();ctx.arc(0,0,18,.5,3.45);ctx.stroke();ctx.beginPath();ctx.moveTo(-15,9);ctx.lineTo(-19,0);ctx.lineTo(-9,-1);ctx.stroke()}
@@ -111,59 +112,60 @@ function drawMinimalCard(mode){
   const skills=[...state.skills,...state.customSkills];
   const dates=state.available.map(parseDate),severalYears=new Set(dates.map(d=>d.getFullYear())).size>1;
   const themes={
-    team:{outer:'#e9e8e3',paper:'#ffffff',ink:'#111111',muted:'#777771',hero:'#ffcc00',heroInk:'#111111',date:'#ffffff',panel:'#f7f7f5',line:'#e3e2dc',pill:'#ffffff',pillLine:'#d7d6cf',footer:'#171816',footerInk:'#ffffff',accent:'#ffcc00'},
-    food:{outer:'#eee7e1',paper:'#fffaf6',ink:'#201815',muted:'#8a7770',hero:'#ff5a3d',heroInk:'#ffffff',date:'#ffffff',panel:'#ffffff',line:'#eadbd5',pill:'#fff1ec',pillLine:'#ffc0b2',footer:'#2b1d19',footerInk:'#ffffff',accent:'#ffcc00'},
-    studio:{outer:'#090a0c',paper:'#121316',ink:'#f5f4f0',muted:'#8b8d92',hero:'#1c1e22',heroInk:'#f5f4f0',date:'#ffcc00',panel:'#1b1d21',line:'#303238',pill:'#24262b',pillLine:'#44474e',footer:'#f3f2ed',footerInk:'#111111',accent:'#ffcc00'}
+    team:{accent:'#ffcc00',accent2:'#ffe47a',surface:'#17191d',surface2:'#202329',outline:'#383c44',ink:'#f7f7f5',muted:'#999da5'},
+    food:{accent:'#ff6547',accent2:'#ffb46a',surface:'#191719',surface2:'#242023',outline:'#42383a',ink:'#fff8f4',muted:'#aa9995'},
+    studio:{accent:'#ffcc00',accent2:'#fff0a3',surface:'#101216',surface2:'#1a1d22',outline:'#343840',ink:'#ffffff',muted:'#979ba4'}
   };
   const t=themes[mode]||themes.team;
-  const valueWidth=848;
-  const skillRows=pillRows(ctx,skills.length?skills:['Навыки не выбраны'],valueWidth,{fontSize:16,padX:18,gap:9});
-  const dateRows=pillRows(ctx,dates.length?dates.map(d=>dateLabel(d,severalYears)):['Выберите даты'],valueWidth,{fontSize:16,padX:17,gap:9});
-  const blockHeight=rows=>94+Math.max(0,rows.length-1)*47;
-  const skillsH=blockHeight(skillRows),shiftH=94,datesH=blockHeight(dateRows);
-  const heroY=112,heroH=146,contentY=282,gap=12;
-  const shiftY=contentY+skillsH+gap,datesY=shiftY+shiftH+gap,footerY=datesY+datesH+18;
-  const cardHeight=footerY+126;
+  const valueWidth=820;
+  const skillRows=pillRows(ctx,skills.length?skills:['Навыки не выбраны'],valueWidth,{fontSize:17,padX:19,gap:10});
+  const dateRows=pillRows(ctx,dates.length?dates.map(d=>dateLabel(d,severalYears)):['Выберите даты'],valueWidth,{fontSize:17,padX:19,gap:10});
+  const rowHeight=rows=>112+Math.max(0,rows.length-1)*50;
+  const skillsH=rowHeight(skillRows),shiftH=108,datesH=rowHeight(dateRows);
+  const heroY=118,heroH=172,contentY=316;
+  const shiftY=contentY+skillsH,datesY=shiftY+shiftH,contentH=skillsH+shiftH+datesH;
+  const footerY=contentY+contentH+24,cardHeight=footerY+118;
   canvas.width=1200;canvas.height=cardHeight;
   ctx.textAlign='left';ctx.textBaseline='alphabetic';
-  ctx.fillStyle=t.outer;ctx.fillRect(0,0,1200,cardHeight);
-  rounded(ctx,20,20,1160,cardHeight-40,34,t.paper);
+  const bg=ctx.createLinearGradient(0,0,1200,cardHeight);bg.addColorStop(0,'#07090c');bg.addColorStop(.55,'#111419');bg.addColorStop(1,'#05070a');ctx.fillStyle=bg;ctx.fillRect(0,0,1200,cardHeight);
+  rounded(ctx,18,18,1164,cardHeight-36,34,'rgba(7,9,12,.92)','#20242b');
+  glow(ctx,260,150,260,mode==='food'?'rgba(255,101,71,.10)':'rgba(255,204,0,.08)');
 
-  ctx.fillStyle='#f04432';ctx.font='800 34px Manrope,Arial';ctx.fillText('Y',58,80);ctx.fillStyle=t.ink;ctx.fillText('andex',82,80);
-  ctx.font='500 34px Manrope,Arial';ctx.fillText('Team',184,80);
-  ctx.fillStyle=t.muted;ctx.font='800 10px Manrope,Arial';ctx.textAlign='right';ctx.fillText('ОБМЕН СМЕНОЙ',1120,70);ctx.textAlign='left';
+  ctx.fillStyle='#f04432';ctx.font='800 38px Manrope,Arial';ctx.fillText('Y',58,84);ctx.fillStyle=t.ink;ctx.fillText('andex',87,84);ctx.font='500 38px Manrope,Arial';ctx.fillText('Team',205,84);
+  ctx.fillStyle=t.muted;ctx.font='800 12px Manrope,Arial';ctx.textAlign='right';ctx.fillText('ОБМЕН СМЕНАМИ',1060,78);ctx.textAlign='left';rounded(ctx,1080,47,56,48,15,t.surface,t.outline);ctx.fillStyle=t.ink;ctx.font='700 30px Manrope,Arial';ctx.textAlign='center';ctx.fillText('↔',1108,80);ctx.textAlign='left';
 
-  const heroFill=ctx.createLinearGradient(54,heroY,1146,heroY+heroH);if(mode==='team'){heroFill.addColorStop(0,'#ffd75b');heroFill.addColorStop(1,'#ffc400')}else if(mode==='food'){heroFill.addColorStop(0,'#ff785f');heroFill.addColorStop(1,'#ff5038')}else{heroFill.addColorStop(0,'#23252a');heroFill.addColorStop(1,'#191b1f')}rounded(ctx,54,heroY,1092,heroH,28,heroFill,mode==='studio'?t.line:null);
-  ctx.fillStyle=t.heroInk;ctx.font='800 45px Manrope,Arial';ctx.fillText('Ищу замену',88,174);
-  ctx.font='600 17px Manrope,Arial';ctx.globalAlpha=.68;ctx.fillText('Рабочий день',91,209);ctx.globalAlpha=1;
-  ctx.strokeStyle=mode==='studio'?'#44464c':'rgba(0,0,0,.16)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(706,140);ctx.lineTo(706,230);ctx.stroke();
-  rounded(ctx,746,132,368,106,22,t.date,mode==='studio'?null:t.line);
-  ctx.fillStyle=mode==='studio'?'#5e5200':t.muted;ctx.font='800 10px Manrope,Arial';ctx.fillText('ДАТА ЗАМЕНЫ',780,163);
-  ctx.fillStyle='#111';ctx.font='800 39px Manrope,Arial';ctx.fillText(fmt(state.replaceDate),780,207);
+  const hero=ctx.createLinearGradient(54,heroY,1146,heroY+heroH);hero.addColorStop(0,'#22252b');hero.addColorStop(1,'#15181d');rounded(ctx,54,heroY,1092,heroH,30,hero,t.outline);
+  rounded(ctx,84,145,94,116,26,t.accent);ctx.fillStyle='#111';ctx.font='800 43px Manrope,Arial';ctx.textAlign='center';ctx.fillText('17',131,216);ctx.textAlign='left';
+  ctx.fillStyle=t.ink;ctx.font='800 49px Manrope,Arial';ctx.fillText('Ищу замену',208,193);ctx.fillStyle=t.muted;ctx.font='600 20px Manrope,Arial';ctx.fillText('Рабочий день',210,231);
+  ctx.strokeStyle='#4a4e56';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(694,146);ctx.lineTo(694,260);ctx.stroke();
+  const dateGrad=ctx.createLinearGradient(732,145,1116,248);dateGrad.addColorStop(0,t.accent);dateGrad.addColorStop(1,t.accent2);rounded(ctx,732,145,384,118,26,dateGrad);ctx.fillStyle='#25210a';ctx.font='800 12px Manrope,Arial';ctx.fillText('ДАТА ЗАМЕНЫ',766,181);ctx.fillStyle='#080808';ctx.font='800 47px Manrope,Arial';ctx.fillText(fmt(state.replaceDate),766,231);
 
+  rounded(ctx,54,contentY,1092,contentH,26,t.surface,t.outline);
+  ctx.strokeStyle=t.outline;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(54,shiftY);ctx.lineTo(1146,shiftY);ctx.moveTo(54,datesY);ctx.lineTo(1146,datesY);ctx.stroke();
   function section(y,height,index,label,rows,options={}){
-    rounded(ctx,54,y,1092,height,22,t.panel,t.line);
-    ctx.fillStyle=t.accent;rounded(ctx,78,y+26,28,28,9,t.accent);ctx.fillStyle='#111';ctx.font='800 10px Manrope,Arial';ctx.textAlign='center';ctx.fillText(index,92,y+45);ctx.textAlign='left';
-    ctx.fillStyle=t.muted;ctx.font='800 11px Manrope,Arial';ctx.fillText(label,128,y+46);
-    if(options.shift){ctx.fillStyle=t.ink;ctx.font='800 31px Manrope,Arial';ctx.fillText(`${$('#startTime').value||'—'} — ${$('#endTime').value||'—'}`,252,y+57);return}
-    drawPillRows(ctx,rows,252,y+25,{height:40,gapX:9,gapY:7,fill:t.pill,stroke:t.pillLine,text:t.ink});
+    rounded(ctx,80,y+34,34,34,10,t.accent);ctx.fillStyle='#111';ctx.font='800 11px Manrope,Arial';ctx.textAlign='center';ctx.fillText(index,97,y+56);ctx.textAlign='left';
+    rounded(ctx,136,y+22,64,64,18,t.surface2);ctx.strokeStyle=t.outline;ctx.lineWidth=2;
+    if(options.shift){ctx.beginPath();ctx.arc(168,y+54,20,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(168,y+54);ctx.lineTo(168,y+39);ctx.moveTo(168,y+54);ctx.lineTo(180,y+62);ctx.stroke()}
+    else{ctx.fillStyle=t.ink;ctx.font='700 24px Manrope,Arial';ctx.textAlign='center';ctx.fillText(options.symbol,168,y+63);ctx.textAlign='left'}
+    ctx.fillStyle=t.accent;ctx.font='800 12px Manrope,Arial';ctx.fillText(label,226,y+42);
+    if(options.shift){ctx.fillStyle=t.ink;ctx.font='700 31px Manrope,Arial';ctx.fillText(`${$('#startTime').value||'—'} — ${$('#endTime').value||'—'}`,226,y+76);return}
+    drawPillRows(ctx,rows,226,y+53,{height:40,gapX:10,gapY:10,fill:t.surface2,stroke:t.outline,text:t.ink});
   }
-  section(contentY,skillsH,'01','НАВЫКИ',skillRows,{icon:'skills'});
-  section(shiftY,shiftH,'02','СМЕНА',[],{shift:true,icon:'clock'});
-  section(datesY,datesH,'03','МОГУ ВЫЙТИ',dateRows,{icon:'dates'});
+  section(contentY,skillsH,'01','НАВЫКИ',skillRows,{symbol:'◉'});
+  section(shiftY,shiftH,'02','СМЕНА',[],{shift:true});
+  section(datesY,datesH,'03','МОГУ ВЫЙТИ В ЧИСЛА',dateRows,{symbol:'□'});
 
-  rounded(ctx,54,footerY,1092,68,20,t.footer);
+  const foot=ctx.createLinearGradient(54,footerY,1146,footerY+74);foot.addColorStop(0,'#1d2025');foot.addColorStop(1,'#111419');rounded(ctx,54,footerY,1092,74,22,foot,t.outline);
   const note=$('#note').value||'Буду благодарен за обмен!';
-  drawAdaptiveText(ctx,note,82,footerY+43,670,{maxSize:20,minSize:13,maxLines:1,weight:600,color:t.footerInk});
-  ctx.strokeStyle=mode==='studio'?'#c9c7bf':'#4b4c48';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(798,footerY+17);ctx.lineTo(798,footerY+51);ctx.stroke();
-  ctx.fillStyle=t.accent;ctx.font='800 19px Manrope,Arial';ctx.fillText('@',836,footerY+42);drawAdaptiveText(ctx,$('#username').value||'username',864,footerY+42,234,{maxSize:18,minSize:13,maxLines:1,weight:800,color:t.footerInk});
-  ctx.fillStyle=t.muted;ctx.font='500 8px Manrope,Arial';ctx.textAlign='center';ctx.fillText('НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · НЕ СВЯЗАН С ЯНДЕКСОМ',600,cardHeight-27);ctx.textAlign='left';
+  rounded(ctx,76,footerY+15,44,44,13,t.surface2,t.outline);ctx.fillStyle=t.accent;ctx.font='800 21px Manrope,Arial';ctx.textAlign='center';ctx.fillText('♡',98,footerY+44);ctx.textAlign='left';drawAdaptiveText(ctx,note,142,footerY+46,610,{maxSize:21,minSize:14,maxLines:1,weight:600,color:t.ink});
+  ctx.strokeStyle=t.outline;ctx.beginPath();ctx.moveTo(802,footerY+18);ctx.lineTo(802,footerY+56);ctx.stroke();rounded(ctx,830,footerY+15,44,44,13,t.accent);ctx.fillStyle='#111';ctx.font='800 22px Manrope,Arial';ctx.textAlign='center';ctx.fillText('@',852,footerY+45);ctx.textAlign='left';drawAdaptiveText(ctx,$('#username').value||'username',892,footerY+46,220,{maxSize:20,minSize:13,maxLines:1,weight:800,color:t.ink});
+  ctx.fillStyle='#727780';ctx.font='500 8px Manrope,Arial';ctx.textAlign='center';ctx.fillText('НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · НЕ СВЯЗАН С ЯНДЕКСОМ',600,cardHeight-24);ctx.textAlign='left';
 }
 
 const cardStyles=[
-  {id:'team',name:'Yellow',description:'Светлый · жёлтый акцент'},
-  {id:'food',name:'Warm',description:'Светлый · тёплый акцент'},
-  {id:'studio',name:'Graphite',description:'Тёмный · жёлтый акцент'}
+  {id:'team',name:'Noir Yellow',description:'Тёмный · жёлтый акцент'},
+  {id:'food',name:'Noir Coral',description:'Тёмный · коралловый акцент'},
+  {id:'studio',name:'Deep Graphite',description:'Графит · жёлтый акцент'}
 ];
 
 drawCard=function(){drawMinimalCard(cardStyles[state.cardStyle].id)};
