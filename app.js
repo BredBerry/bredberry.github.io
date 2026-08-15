@@ -156,7 +156,14 @@ function drawShiftCard(mode){
 
   ctx.save();ctx.shadowColor=dark?'rgba(0,0,0,.2)':'rgba(0,0,0,.05)';ctx.shadowBlur=18;ctx.shadowOffsetY=7;rounded(ctx,64,footerY,1408,104,28,t.footer,t.border);ctx.restore();rounded(ctx,96,footerY+20,64,64,18,t.panel2,t.border);cardIcon(ctx,'heart',128,footerY+52,42,accent,accent);
   const note=currentField('note','Буду благодарен за обмен!');drawAdaptiveText(ctx,note,192,footerY+65,650,{maxSize:28,minSize:17,maxLines:1,weight:600,color:t.footerText});ctx.strokeStyle=t.border;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(886,footerY+24);ctx.lineTo(886,footerY+80);ctx.stroke();rounded(ctx,940,footerY+20,64,64,18,accent);ctx.fillStyle='#111';ctx.font='800 34px Manrope,Arial';ctx.textAlign='center';ctx.fillText('@',972,footerY+64);ctx.textAlign='left';drawAdaptiveText(ctx,currentField('username','username'),1038,footerY+65,360,{maxSize:27,minSize:16,maxLines:1,weight:800,color:t.footerText});
-  ctx.fillStyle=t.muted;ctx.font='500 9px Manrope,Arial';ctx.textAlign='center';ctx.fillText('НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · НЕ СВЯЗАН С ЯНДЕКСОМ',768,H-28);ctx.textAlign='left';
+  const disclaimer='НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · НЕ СВЯЗАН С ЯНДЕКСОМ · ';
+  const projectUrl='bredberry.github.io';
+  ctx.font='500 9px Manrope,Arial';
+  const disclaimerWidth=ctx.measureText(disclaimer).width;
+  const projectUrlWidth=ctx.measureText(projectUrl).width;
+  const disclaimerX=(canvas.width-disclaimerWidth-projectUrlWidth)/2;
+  ctx.textAlign='left';ctx.fillStyle=t.muted;ctx.fillText(disclaimer,disclaimerX,H-28);
+  ctx.fillStyle=t.accent;ctx.fillText(projectUrl,disclaimerX+disclaimerWidth,H-28);
 }
 
 const cardStyles=[
